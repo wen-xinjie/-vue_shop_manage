@@ -1,0 +1,6 @@
+{
+    // 格式化文件格式的时候不加封号
+    "semi": false,
+    // 字符串为单引号
+    "singleQuote": true
+}
