@@ -18,7 +18,7 @@ module.exports = {
     //     // 配置代理
     //     "/api":{
     //       // 凡是以 /x 开头的请求，进行代理
-    //       target:"http://127.0.0.1:8888/api/private/v1/",
+    //       target:"http://47.101.59.24:10001",
     //       changeOrigin: true,
     //       ws: true,
     //       pathRewrite: {

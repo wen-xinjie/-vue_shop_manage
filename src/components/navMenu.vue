@@ -1,65 +1,119 @@
 <template>
-  <div id="nav_container">
-    <el-col :span="12">
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b"
-      >
-        <el-submenu index="1">
+  <el-col :span="12" :width="isCollapse ? '50%' : '100%'">
+    <div
+      :class="{
+        'toggle-button': true,
+        'iconfont icon-cebianlan-copy': isCollapse,
+        'iconfont icon-cebianlan': !isCollapse,
+      }"
+      @click="navCollapse"
+    ></div>
+    <el-menu
+      class="el-menu-vertical-demo"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#409eff"
+      :unique-opened="true"
+      :collapse="isCollapse"
+      :collapse-transition="false"
+      :router="true"
+      :default-active="activePath"
+    >
+      <!-- 一级菜单 -->
+      <!-- +''是为了转化为字符串 -->
+      <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
+        <template slot="title">
+          <i :class="menuIcons[item.id]"></i>
+          <span>{{ item.authName }}</span>
+        </template>
+
+        <!-- 二级菜单 -->
+        <el-menu-item
+          :index="'/' + childitem.path"
+          v-for="childitem in item.children"
+          :key="childitem.id"
+          @click="saveNavActive('/' + childitem.path)"
+        >
           <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
+            <i class="el-icon-menu icon-menu" style="font-size: 14px"></i>
+            <span>{{ childitem.authName }}</span>
           </template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-  </div>
+      </el-submenu>
+    </el-menu>
+  </el-col>
 </template>
 
 <script>
 export default {
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
+  props: {
+    menuList: {
+      type: Array,
+      default() {
+        return [];
+      },
     },
   },
-}
+  data() {
+    return {
+      menuIcons: {
+        125: "iconfont icon-dashujukeshihuaico-",
+        103: "iconfont icon-BBDhezi",
+        101: "iconfont icon-shangpin",
+        102: "iconfont icon-icon",
+        145: "iconfont icon-shuju-dianji",
+      },
+      // 侧边栏是否折叠
+      isCollapse: false,
+      // 被激活的菜单地址
+      activePath: "",
+    };
+  },
+  created() {
+    this.activePath = window.sessionStorage.getItem("activePath");
+  },
+  methods: {
+    // 点击按钮，切换菜单的折叠与展开
+    navCollapse() {
+      this.isCollapse = !this.isCollapse;
+      // 向父组件传递是否折叠的数据
+      this.$emit("navCollapse", this.isCollapse);
+    },
+    // 点击菜单栏，在本地保存菜单激活状态
+    saveNavActive(activePath) {
+      window.sessionStorage.setItem("activePath", activePath);
+      this.activePath = activePath;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
-#nav_container .nav {
-  width: 100% !important;
+.toggle-button {
+  background-color: #5e6369;
+  height: 25px;
+  color: #35383b;
+  line-height: 25px;
+  text-align: center;
+}
+
+.el-menu {
+  border-right: none;
+}
+
+.el-col {
+  width: 100%;
+  background-color: #fff;
+}
+
+.iconfont {
+  margin-right: 10px;
+  font-size: 13px;
+}
+
+.icon-cebianlan,
+.icon-cebianlan-copy {
+  margin-right: 0px;
+  font-size: 16px;
 }
 </style>

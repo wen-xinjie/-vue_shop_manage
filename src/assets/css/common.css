@@ -1,7 +1,25 @@
 @import url('./normalize.css');
-@import url('//at.alicdn.com/t/font_2250371_duyqok7jecm.css');
+@import url('//at.alicdn.com/t/font_2250371_xoidkxm6iwa.css');
 
 html,body{
     width: 100%;
     height: 100%;
+}
+
+.el-breadcrumb{
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.el-card{
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.el-table{
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.el-pagination{
+    margin-top: 15px;
 }

@@ -67,18 +67,17 @@ export default {
       this.$refs.loginFormRef.validate(async (valid) => {
         // valid 为 true，表示验证通过；false 表示验证不通过
         if (!valid) return;
-        console.log(valid);
-        // 发起请求
-        const { data: res } = await this.$http.post(
-          "/login",
-          this.loginFormMessages
-        );
+        // 向仓库action属性中getLoginData函数中传递表单数据
+        await this.$store.dispatch("getLoginData", this.loginFormMessages);
+        const res = this.$store.state.loginData.data;
         if (res.meta.status !== 200) return this.$message.error("登录失败！");
         this.$message.success("登录成功！");
         // 将 token 存储到 sessionStorage 中
         window.sessionStorage.setItem("token", res.data.token);
+        // 将 usern 存储到 sessionStorage 中
+        window.sessionStorage.setItem("username", res.data.username);
         // 通过编程式导航跳转到 /home
-        this.$router.push('/home')
+        this.$router.push("/home");
       });
     },
   },
