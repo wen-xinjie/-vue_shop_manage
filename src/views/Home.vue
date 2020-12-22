@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header height="50px">
       <span class="title"> 商品管理系统</span>
 
       <span class="userName">
@@ -8,12 +8,12 @@
         {{ userName }}
       </span>
 
-      <a @click="back" class="back">退出</a>
+      <el-button type="text" @click="exitLogin" class="exitLogin">退出</el-button>
     </el-header>
     <el-container>
       <el-aside
       
-        :width=" isCollapse ? '64px' : '200px'"
+        :width=" isCollapse ? '64px' : '170px'"
       >
       <!-- 接收子组件传递的是否折叠的数据并调用getCollapse函数 -->
         <NavMenu :menuList="menuList"   @navCollapse="getCollapse"/>
@@ -36,14 +36,14 @@ export default {
       // 左侧菜单数据
       menuList: [],
       userName: "",
-      isCollapse: false,
+      isCollapse: true,
     };
   },
   created() {
     this.getMenuList();
   },
   methods: {
-    back() {
+   exitLogin() {
       window.sessionStorage.clear();
       this.$router.push("/login");
     },
@@ -72,11 +72,10 @@ export default {
 }
 
 .el-header {
-  background-color: #4e545a;
   background-color: #464d53;
   color: #333;
   text-align: center;
-  line-height: 60px;
+  line-height: 50px;
 
   .title {
     font-size: 24px;
@@ -91,11 +90,12 @@ export default {
     right: 78px;
   }
 
-  .back {
+  .exitLogin {
     position: absolute;
     right: 30px;
     color: rgb(218, 206, 206);
     cursor: pointer;
+    margin-top: 5px;
   }
 }
 

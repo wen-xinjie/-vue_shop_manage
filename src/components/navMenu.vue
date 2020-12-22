@@ -1,13 +1,22 @@
 <template>
   <el-col :span="12" :width="isCollapse ? '50%' : '100%'">
-    <div
-      :class="{
-        'toggle-button': true,
-        'iconfont icon-cebianlan-copy': isCollapse,
-        'iconfont icon-cebianlan': !isCollapse,
-      }"
-      @click="navCollapse"
-    ></div>
+    <div class="toggle-button">
+      <el-tooltip
+        effect="dark"
+        :content="isCollapse ? '点击展开' : '点击收缩'"
+        placement="right"
+          :enterable="false"
+      >
+        <span
+          :class="{
+            'toggle-button-icon': true,
+            'iconfont icon-solid-home': true,
+          }"
+          @click="navCollapse"
+        >
+        </span>
+      </el-tooltip>
+    </div>
     <el-menu
       class="el-menu-vertical-demo"
       background-color="#545c64"
@@ -64,7 +73,7 @@ export default {
         145: "iconfont icon-shuju-dianji",
       },
       // 侧边栏是否折叠
-      isCollapse: false,
+      isCollapse: true,
       // 被激活的菜单地址
       activePath: "",
     };
@@ -90,11 +99,24 @@ export default {
 
 <style lang="less" scoped>
 .toggle-button {
-  background-color: #5e6369;
-  height: 25px;
-  color: #35383b;
-  line-height: 25px;
+  background-color: #545c64;
+  height: 28px;
+  color: #909399;
+  line-height: 28px;
+  padding: 3px 0;
   text-align: center;
+}
+.toggle-button-icon {
+  width: 28px;
+  height: 100%;
+  display: inline-block;
+  border-radius: 50%;
+  text-align: center;
+  outline: none;
+}
+.toggle-button-icon:hover {
+  background-color: #75797e;
+  outline: none;
 }
 
 .el-menu {
@@ -111,9 +133,7 @@ export default {
   font-size: 13px;
 }
 
-.icon-cebianlan,
-.icon-cebianlan-copy {
-  margin-right: 0px;
-  font-size: 16px;
+.icon-solid-home {
+  font-size: 15px;
 }
 </style>

@@ -78,6 +78,7 @@
                 circle
                 size="mini"
                 class="circleBtn"
+                @click="setRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -170,6 +171,35 @@
         <el-button type="primary" @click="editeUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="roleDialogVisible"
+      width="50%"
+      @close="closeRoleDialog"
+    >
+      <div>
+        <p>当前的用户：{{ userInfo.username }}</p>
+        <p>当前用户的角色：{{ userInfo.role_name }}</p>
+        <p>
+          分配新角色：
+          <el-select v-model="selectedRole" placeholder="请选择">
+            <el-option
+              v-for="item in rolesList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveChoseRole">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -198,6 +228,7 @@ export default {
       }
       callback(new Error("请输入合法手机号码"));
     };
+
     return {
       // 获取用户列表的参数对象
       queryInfo: {
@@ -265,6 +296,14 @@ export default {
           { validator: checkMobile, trigger: "blur" },
         ],
       },
+      // 控制分配角色对话框显示
+      roleDialogVisible: false,
+      // 需要被分配角色的角色用户信息
+      userInfo: [],
+      // 所有角色的数据列表
+      rolesList: [],
+      // 被选中的角色数据
+      selectedRole: "",
     };
   },
   created() {
@@ -368,12 +407,12 @@ export default {
           cancelButtonText: "取消",
           type: "warning",
         }
-      ).catch(err => err)
+      ).catch((err) => err);
 
       // 如果用户确认了删除，则返回值为字符串 confirm
       // 如果用户取消了删除，则返回值为字符串 cancel
-      if(result !== 'confirm'){
-        return this.$message.info('已取消删除')
+      if (result !== "confirm") {
+        return this.$message.info("已取消删除");
       }
       const { data: resp } = await this.$http.delete("users/" + id);
       if (resp.meta.status !== 200) {
@@ -383,12 +422,44 @@ export default {
       // 重新获取用户信息
       this.getUserList();
     },
+    // 分配角色对话框
+    async setRole(userinfo) {
+      this.userInfo = userinfo;
+      // 获取所有角色列表
+      const { data: resp } = await this.$http.get("roles");
+      this.roleDialogVisible = true;
+      if (resp.meta.status !== 200)
+        return this.$message.error("获取角色列表失败！");
+      this.rolesList = resp.data;
+    },
+    // 保存分配角色信息
+    async saveChoseRole() {
+      if (!this.selectedRole) {
+        this.$message.error("请选择要分配的角色！");
+      }
+      const { data: resp } = await this.$http.put(
+        `users/${this.userInfo.id}/role`,
+        {
+          rid: this.selectedRole,
+        }
+      );
+      if (resp.meta.status !== 200)
+        return this.$message.error("修改角色失败！");
+      this.$message.success("修改角色成功！");
+      this.getUserList();
+      this.roleDialogVisible = false;
+    },
+    // 关闭分配角色对话框
+    closeRoleDialog(){
+      this.selectedRole = "";
+      this.userinfo = "";
+    }
   },
 };
 </script>
 
 <style lang="less" scoped>
 .circleBtn {
-  margin: 0 8px;
+  margin: 0 4px;
 }
 </style>
