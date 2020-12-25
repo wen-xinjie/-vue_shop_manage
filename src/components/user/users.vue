@@ -363,12 +363,10 @@ export default {
     },
     // 点击 编辑 按钮，编辑用户信息
     async editeUser(userId) {
-      console.log(userId);
       const { data: resp } = await this.$http.get("users/" + userId);
       if (resp.meta.status !== 200)
         return this.$message.error("获取用户列表失败！");
       this.editeForm = resp.data;
-      console.log(resp);
       this.editeUserVisible = true;
     },
     // 监听 编辑 用户对话框的关闭事件

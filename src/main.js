@@ -8,9 +8,14 @@ import './network/index'
 
 import 'assets/css/common.css'
 
+// 导入依赖
+import TreeTable from 'vue-table-with-tree-grid'
+
 
 Vue.config.productionTip = false
 
+// 注册为全局可用属性
+Vue.component('tree-table',TreeTable)
 
 // // 配置 axios 请求库
 // import axios from 'axios'
