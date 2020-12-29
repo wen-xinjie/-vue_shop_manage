@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import NavMenu from "components/navMenu";
+import NavMenu from "components/common/navMenu";
 export default {
   components: {
     NavMenu,
