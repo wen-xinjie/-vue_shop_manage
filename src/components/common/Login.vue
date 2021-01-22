@@ -72,6 +72,7 @@ export default {
         const res = this.$store.state.loginData.data;
         if (res.meta.status !== 200) return this.$message.error("登录失败！");
         this.$message.success("登录成功！");
+        console.log(res.data);
         // 将 token 存储到 sessionStorage 中
         window.sessionStorage.setItem("token", res.data.token);
         // 将 usern 存储到 sessionStorage 中

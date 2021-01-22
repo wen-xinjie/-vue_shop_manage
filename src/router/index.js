@@ -12,6 +12,7 @@ import Roles from 'components/power/Roles'
 import Categories from 'components/goods/categories'
 import Params from '../components/goods/params.vue'
 import GoodsList from '../components/goods/goodsList.vue'
+import addGoods from '../components/goods/addGoods.vue'
 
 import Orders from '../components/order/orders.vue'
 
@@ -65,6 +66,10 @@ const routes = [
       {
         path: '/reports',
         component: DataReports,
+      },
+      {
+        path: '/goods/add',
+        component: addGoods,
       },
     ]
   },
