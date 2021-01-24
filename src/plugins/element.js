@@ -85,6 +85,9 @@ import {
   Notification
 } from 'element-ui';
 
+// import Timeline from './timeline/index'
+// import TimelineItem from './timeline-item/index'
+
 Vue.use(Pagination);
 Vue.use(Dialog);
 Vue.use(Autocomplete);
@@ -158,6 +161,8 @@ Vue.use(Calendar);
 Vue.use(Backtop);
 Vue.use(PageHeader);
 Vue.use(CascaderPanel);
+// Vue.use(Timeline);
+// Vue.use(TimelineItem);
 
 Vue.use(Loading.directive);
 
