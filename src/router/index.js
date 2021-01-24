@@ -16,7 +16,7 @@ import addGoods from '../components/goods/addGoods.vue'
 
 import Orders from '../components/order/orders.vue'
 
-import DataReports from '../components/data/dataReports.vue'
+import Reports from '../components/data/Reports.vue'
 
 Vue.use(VueRouter)
 
@@ -65,7 +65,7 @@ const routes = [
       },
       {
         path: '/reports',
-        component: DataReports,
+        component: Reports,
       },
       {
         path: '/goods/add',
